@@ -99,6 +99,30 @@ This is an early calendar-core release. It intentionally excludes weather,
 diary, school schedules, network access, and external commands. Those concerns
 do not belong in the smallest dependable calendar plugin.
 
+## Status
+
+This is an early calendar-core release. It intentionally excludes weather,
+diary, school schedules, network access, and external commands. Those concerns
+do not belong in the smallest dependable calendar plugin.
+
+### Animation milestones (A–E)
+
+The original Serpantinum calendar shipped with four animation phases. This
+plugin tracks them as follows:
+
+| Milestone | Original description | Our status | Notes |
+|---|---|---|---|
+| **A** | Glyph‑based bar clock with per‑char roll animation (dip, settle overshoot, y‑pulse) | ✅ Code exists at `acd9bb8` but runs as a subtle opacity‑only cascade; the per‑char roll was not re‑implemented in the clean‑room plugin. Stale QML cache and a `translate.y` runtime bug prevented the original animation from showing live. |
+| **B** | Staged layered panel entrance (header → weekday row → day grid → Today) | ✅ Built and validated (qmllint, validate, tests pass). Shown as a subtle opacity cascade on open; the original had directional crossfade and overlapping tails. User never saw it live because of the same cache/property bugs. |
+| **C** | Directional month crossfade (outgoing grid slides out along travel direction, incoming from opposite side) | ❌ Not started. This is the primary visible‑motion milestone after B. |
+| **D** | Today pulse + day‑grid stagger (`running: opened && !reducedMotion`) | ❌ Not started. |
+| **E** | Ambient celestial drift | ❌ Deferred after A–B, pending C+D review. |
+
+All four plugin repos are pushed clean (local == remote). Live testing requires
+`omarchy-restart-shell` after editing QML (`rm -rf ~/.cache/quickshell/qmlcache`).
+See `docs/implementation-status.md` for the full live‑test findings and the
+exact next steps for a subsequent harness.
+
 ## License
 
 The independently written plugin code is MIT licensed. The Serpantinum projects
