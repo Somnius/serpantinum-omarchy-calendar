@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "somnius.serpantinum-calendar",
+  "name": "Serpantinum Calendar",
+  "version": "0.1.0",
+  "author": "Somnius",
+  "description": "An animated, theme-aware calendar for the Omarchy bar",
+  "license": "MIT",
+  "kinds": ["bar-widget"],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Serpantinum Calendar",
+    "description": "Animated clock and month calendar",
+    "category": "Time",
+    "allowMultiple": false
+  }
+}
