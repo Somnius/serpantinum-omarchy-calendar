@@ -121,13 +121,13 @@ Panel {
         ScriptAction {
             script: {
                 headerRegion.opacity = root.reducedMotion ? 1 : 0;
-                headerRegion.y = root.reducedMotion ? 0 : Style.space(10);
+                headerRegion.translate.y = root.reducedMotion ? 0 : Style.space(10);
                 weekdayRow.opacity = root.reducedMotion ? 1 : 0;
-                weekdayRow.y = root.reducedMotion ? 0 : Style.space(8);
+                weekdayRow.translate.y = root.reducedMotion ? 0 : Style.space(8);
                 dayGrid.opacity = root.reducedMotion ? 1 : 0;
-                dayGrid.y = root.reducedMotion ? 0 : Style.space(8);
+                dayGrid.translate.y = root.reducedMotion ? 0 : Style.space(8);
                 todayRegion.opacity = root.reducedMotion ? (root.viewingToday ? 0.45 : 1) : 0;
-                todayRegion.y = root.reducedMotion ? 0 : Style.space(8);
+                todayRegion.translate.y = root.reducedMotion ? 0 : Style.space(8);
             }
         }
 
@@ -144,7 +144,7 @@ Panel {
 
                     NumberAnimation {
                         target: headerRegion
-                        property: "y"
+                        property: "translate.y"
                         to: 0
                         duration: root.reducedMotion ? 0 : 260
                         easing.type: Easing.OutBack
@@ -171,7 +171,7 @@ Panel {
 
                     NumberAnimation {
                         target: weekdayRow
-                        property: "y"
+                        property: "translate.y"
                         to: 0
                         duration: root.reducedMotion ? 0 : 240
                         easing.type: Easing.OutCubic
@@ -197,7 +197,7 @@ Panel {
 
                     NumberAnimation {
                         target: dayGrid
-                        property: "y"
+                        property: "translate.y"
                         to: 0
                         duration: root.reducedMotion ? 0 : 300
                         easing.type: Easing.OutBack
@@ -224,7 +224,7 @@ Panel {
 
                     NumberAnimation {
                         target: todayRegion
-                        property: "y"
+                        property: "translate.y"
                         to: 0
                         duration: root.reducedMotion ? 0 : 240
                         easing.type: Easing.OutCubic
