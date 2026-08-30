@@ -46,7 +46,7 @@ Panel {
     function open() {
         refreshToday();
         controller.show();
-        monthEntrance.restart();
+        stagedEnter.restart();
     }
 
     function close() {
@@ -109,6 +109,135 @@ Panel {
 
     }
 
+    // Staged layered entrance. Each semantic region (header, weekday row,
+    // day grid, footer) enters in a short cascade so the panel reads as a
+    // sequence of arrivals rather than one blunt fade. Overlapping tails keep
+    // the cascade fluid. Reduced motion collapses it to a single brief fade.
+    SequentialAnimation {
+        id: stagedEnter
+
+        running: false
+
+        ScriptAction {
+            script: {
+                headerRegion.opacity = root.reducedMotion ? 1 : 0;
+                headerRegion.y = root.reducedMotion ? 0 : Style.space(10);
+                weekdayRow.opacity = root.reducedMotion ? 1 : 0;
+                weekdayRow.y = root.reducedMotion ? 0 : Style.space(8);
+                dayGrid.opacity = root.reducedMotion ? 1 : 0;
+                dayGrid.y = root.reducedMotion ? 0 : Style.space(8);
+                todayRegion.opacity = root.reducedMotion ? (root.viewingToday ? 0.45 : 1) : 0;
+                todayRegion.y = root.reducedMotion ? 0 : Style.space(8);
+            }
+        }
+
+        ParallelAnimation {
+            SequentialAnimation {
+                ParallelAnimation {
+                    NumberAnimation {
+                        target: headerRegion
+                        property: "opacity"
+                        to: 1
+                        duration: root.reducedMotion ? 0 : 220
+                        easing.type: Easing.OutCubic
+                    }
+
+                    NumberAnimation {
+                        target: headerRegion
+                        property: "y"
+                        to: 0
+                        duration: root.reducedMotion ? 0 : 260
+                        easing.type: Easing.OutBack
+                        easing.overshoot: 0.6
+                    }
+
+                }
+
+            }
+
+            SequentialAnimation {
+                PauseAnimation {
+                    duration: root.reducedMotion ? 0 : 60
+                }
+
+                ParallelAnimation {
+                    NumberAnimation {
+                        target: weekdayRow
+                        property: "opacity"
+                        to: 1
+                        duration: root.reducedMotion ? 0 : 220
+                        easing.type: Easing.OutCubic
+                    }
+
+                    NumberAnimation {
+                        target: weekdayRow
+                        property: "y"
+                        to: 0
+                        duration: root.reducedMotion ? 0 : 240
+                        easing.type: Easing.OutCubic
+                    }
+
+                }
+
+            }
+
+            SequentialAnimation {
+                PauseAnimation {
+                    duration: root.reducedMotion ? 0 : 120
+                }
+
+                ParallelAnimation {
+                    NumberAnimation {
+                        target: dayGrid
+                        property: "opacity"
+                        to: 1
+                        duration: root.reducedMotion ? 0 : 260
+                        easing.type: Easing.OutCubic
+                    }
+
+                    NumberAnimation {
+                        target: dayGrid
+                        property: "y"
+                        to: 0
+                        duration: root.reducedMotion ? 0 : 300
+                        easing.type: Easing.OutBack
+                        easing.overshoot: 0.55
+                    }
+
+                }
+
+            }
+
+            SequentialAnimation {
+                PauseAnimation {
+                    duration: root.reducedMotion ? 0 : 180
+                }
+
+                ParallelAnimation {
+                    NumberAnimation {
+                        target: todayRegion
+                        property: "opacity"
+                        to: root.viewingToday ? 0.45 : 1
+                        duration: root.reducedMotion ? 0 : 220
+                        easing.type: Easing.OutCubic
+                    }
+
+                    NumberAnimation {
+                        target: todayRegion
+                        property: "y"
+                        to: 0
+                        duration: root.reducedMotion ? 0 : 240
+                        easing.type: Easing.OutCubic
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
     KeyboardPanel {
         id: popup
 
@@ -149,6 +278,8 @@ Panel {
                 spacing: Style.space(12)
 
                 Row {
+                    id: headerRegion
+
                     width: parent.width
                     height: Style.space(48)
 
@@ -308,6 +439,8 @@ Panel {
                 }
 
                 Rectangle {
+                    id: todayRegion
+
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: todayLabel.implicitWidth + Style.space(24)
                     height: Style.space(34)
